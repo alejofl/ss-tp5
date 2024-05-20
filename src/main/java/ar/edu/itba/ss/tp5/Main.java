@@ -15,7 +15,6 @@ import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
-
         final Player homePlayer11 = new Player("Player11", Teams.HOME);
         final Player homePlayer1 = new Player("Player1", Teams.HOME);
         final Player homePlayer2 = new Player("Player2", Teams.HOME);
@@ -54,35 +53,52 @@ public class Main {
                 Stream<String> away = Files.lines(Paths.get("TrackingData_Visitante.csv")).skip(3)
         ) {
             home.forEach(line -> {
-                String[] fields = line.split(";");
+                String[] fields = line.split(",");
                 final double time = Double.parseDouble(fields[2]);
                 for (int i = 0; i < homePlayers.size(); i++) {
-                    homePlayers.get(i).addPosition(time, new Position(Double.parseDouble(fields[3 + i * 2]), Double.parseDouble(fields[3 + i * 2 + 1])));
+                    homePlayers.get(i).addPosition(time, new Position(Double.parseDouble(fields[3 + i * 2]) * 105, Double.parseDouble(fields[3 + i * 2 + 1]) * 68));
                 }
-                double ballX = Double.parseDouble(fields[31]);
-                double ballY = Double.parseDouble(fields[32]);
+                double ballX = Double.parseDouble(fields[31]) * 105;
+                double ballY = Double.parseDouble(fields[32]) * 68;
                 if (!Double.isNaN(ballX) && !Double.isNaN(ballY)) {
                     ball.addPosition(time, new Position(ballX, ballY), Teams.HOME);
                 }
             });
             away.forEach(line -> {
-                String[] fields = line.split(";");
+                String[] fields = line.split(",");
                 final double time = Double.parseDouble(fields[2]);
                 for (int i = 0; i < awayPlayers.size(); i++) {
-                    awayPlayers.get(i).addPosition(time, new Position(Double.parseDouble(fields[3 + i * 2]), Double.parseDouble(fields[3 + i * 2 + 1])));
+                    awayPlayers.get(i).addPosition(time, new Position(Double.parseDouble(fields[3 + i * 2]) * 105, Double.parseDouble(fields[3 + i * 2 + 1]) * 68));
                 }
-                double ballX = Double.parseDouble(fields[27]);
-                double ballY = Double.parseDouble(fields[28]);
+                double ballX = Double.parseDouble(fields[27]) * 105;
+                double ballY = Double.parseDouble(fields[28]) * 68;
                 if (!Double.isNaN(ballX) && !Double.isNaN(ballY)) {
                     ball.addPosition(time, new Position(ballX, ballY), Teams.AWAY);
                 }
             });
         } catch (IOException e) {
-            System.err.println("Error reading file");
+            System.err.println("Error reading players' file");
             System.exit(2);
         }
 
+        List<String> input = null;
+        try (Stream<String> stream = Files.lines(Paths.get("input.txt"))) {
+            input = stream.toList();
+        } catch (Exception e) {
+            System.err.println("Error reading input file");
+            System.exit(2);
+        }
+        if (input.size() != 4) {
+            throw new IllegalStateException();
+        }
+
+        final double distanceToBall = Double.parseDouble(input.get(0));
+        final double desiredVelocity = Double.parseDouble(input.get(1));
+        final double relaxingTime = Double.parseDouble(input.get(2));
+        final double mass = Double.parseDouble(input.get(3));
+
         // Simulation
-        final Match match = new Match(players, ball);
+        final Match match = new Match(players, ball, distanceToBall, desiredVelocity, relaxingTime, mass, 2.04);
+        match.simulate(600, "output.txt");
     }
 }

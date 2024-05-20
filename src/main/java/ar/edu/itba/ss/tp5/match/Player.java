@@ -9,15 +9,23 @@ import java.util.Map;
 public class Player {
     private final String id;
     private final Teams team;
-    private final Map<Double, Position> positionsMap;
+    private final Map<String, Position> positionMap;
 
     public Player(String id, Teams team) {
         this.id = id;
         this.team = team;
-        this.positionsMap = new HashMap<>();
+        this.positionMap = new HashMap<>();
     }
 
     public void addPosition(double time, Position position) {
-        this.positionsMap.put(time, position);
+        this.positionMap.put(String.format("%.2f", time), position);
+    }
+
+    public Position getPosition(Double time) {
+        return this.positionMap.get(String.format("%.2f", time));
+    }
+
+    public boolean isSubstitute(Double time) {
+        return Double.isNaN(this.positionMap.get(String.format("%.2f", time)).x()) || Double.isNaN(this.positionMap.get(String.format("%.2f", time)).y());
     }
 }

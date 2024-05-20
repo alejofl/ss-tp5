@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Ball {
-    private final Map<Double, Position> positionMap;
-    private final Map<Double, Teams> possessionMap;
+    private final Map<String, Position> positionMap;
+    private final Map<String, Teams> possessionMap;
 
     public Ball() {
         this.possessionMap = new HashMap<>();
@@ -16,7 +16,11 @@ public class Ball {
     }
 
     public void addPosition(Double time, Position position, Teams team) {
-        this.positionMap.put(time, position);
-        this.possessionMap.put(time, team);
+        this.positionMap.put(String.format("%.2f", time), position);
+        this.possessionMap.put(String.format("%.2f", time), team);
+    }
+
+    public Position getPosition(Double time) {
+        return this.positionMap.get(String.format("%.2f", time));
     }
 }
