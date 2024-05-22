@@ -44,7 +44,7 @@ public class Match {
     }
 
     public void simulate(double endTime, String filename) {
-        Position virtualPlayer = new Position(ball.getPosition(time).x() - distanceToBall, 0);
+        Position virtualPlayer = new Position(ball.getPosition(time).x() - distanceToBall, ball.getPosition(time).y());
 
         BiFunction<Double, Double, Double> accelerationX = (r, v) -> {
             Position ballPosition = ball.getPosition(dataTime);
