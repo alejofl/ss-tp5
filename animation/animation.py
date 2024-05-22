@@ -13,7 +13,7 @@ LIMIT_X = 105
 LIMIT_Y = 68
 PEOPLE_RADIUS = 0.75
 BALL_RADIUS = 0.5
-START_PLAYERS_INDEX = 53
+START_PLAYERS_INDEX = 1433
 ##########################################
 
 
