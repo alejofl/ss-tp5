@@ -6,7 +6,7 @@ from PIL import Image
 from matplotlib.animation import FuncAnimation, FFMpegWriter
 
 ########### CONSTANT VARIABLES ###########
-VIRTUAL_PLAYER_FILENAME = "output.txt"
+VIRTUAL_PLAYER_FILENAME = "output_velocity_5.0.txt"
 HOME_FILENAME = "TrackingData_Local.csv"
 AWAY_FILENAME = "TrackingData_Visitante.csv"
 LIMIT_X = 105

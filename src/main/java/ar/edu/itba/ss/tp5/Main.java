@@ -216,23 +216,24 @@ public class Main {
 //        runSimulation(distanceToBall, desiredVelocity, relaxingTime, mass, "output.txt");
 
         // Run for different desired velocities
-//        List<Double> desiredVelocities = new ArrayList<>();
-//        for (double i = 0.1; i <= 13; i += 0.1) {
-//            desiredVelocities.add(i);
-//        }
-//
-//        desiredVelocities.parallelStream().forEach(velocity -> {
-//            runSimulation(distanceToBall, velocity, relaxingTime, mass, String.format("output_velocity_%.1f.txt", velocity));
-//        });
-
-        // Run for different relaxing times
-        List<Double> relaxingTimes = new ArrayList<>();
-        for (double i = 0.1; i <= 1; i += 0.05) {
-            relaxingTimes.add(i);
+        List<Double> desiredVelocities = new ArrayList<>();
+        desiredVelocities.add(0.1);
+        for (double i = 1; i <= 13; i += 1) {
+            desiredVelocities.add(i);
         }
 
-        relaxingTimes.parallelStream().forEach(time -> {
-            runSimulation(distanceToBall, desiredVelocity, time, mass, String.format("output_tau_%.2f.txt", time));
+        desiredVelocities.parallelStream().forEach(velocity -> {
+            runSimulation(distanceToBall, velocity, relaxingTime, mass, String.format("output_velocity_%.1f.txt", velocity));
         });
+
+        // Run for different relaxing times
+//        List<Double> relaxingTimes = new ArrayList<>();
+//        for (double i = 0.1; i <= 1; i += 0.05) {
+//            relaxingTimes.add(i);
+//        }
+//
+//        relaxingTimes.parallelStream().forEach(time -> {
+//            runSimulation(distanceToBall, desiredVelocity, time, mass, String.format("output_tau_%.2f.txt", time));
+//        });
     }
 }

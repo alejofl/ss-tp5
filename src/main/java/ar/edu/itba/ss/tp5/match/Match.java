@@ -1,7 +1,8 @@
 package ar.edu.itba.ss.tp5.match;
 
-import ar.edu.itba.ss.tp4.integrator.NewVerlet;
+import ar.edu.itba.ss.tp5.integrator.NewVerlet;
 import ar.edu.itba.ss.tp4.utils.StateVariables;
+import ar.edu.itba.ss.tp5.integrator.Beeman;
 import ar.edu.itba.ss.tp5.utils.Position;
 
 import java.io.BufferedWriter;
@@ -17,7 +18,7 @@ public class Match {
     public static final double GRANULAR_FORCE_K = 1.2E5;
     public static final double SOCIAL_FORCE_A = 2E3;
     public static final double SOCIAL_FORCE_B = 0.08;
-    public static final double PLAYER_RADIUS = 0.3;
+    public static final double PLAYER_RADIUS = 0.25;
 
     private final List<Player> players;
     private final Ball ball;
@@ -62,7 +63,7 @@ public class Match {
                 Position playerPosition = player.getPosition(dataTime);
                 double normalVersorPlayerX = (playerPosition.x() - r) / Math.sqrt(Math.pow(playerPosition.x() - r, 2) + Math.pow(playerPosition.y() - virtualPlayer.y(), 2));
                 double distance = Math.sqrt(Math.pow(playerPosition.x() - r, 2) + Math.pow(playerPosition.y() - virtualPlayer.y(), 2)) - 2 * PLAYER_RADIUS;
-                socialForce += SOCIAL_FORCE_A * Math.exp(- distance / SOCIAL_FORCE_B);
+                socialForce += SOCIAL_FORCE_A * Math.exp(- distance / SOCIAL_FORCE_B) * normalVersorPlayerX;
                 granularForce += distance < 0 ? GRANULAR_FORCE_K * -distance * normalVersorPlayerX : 0;
             }
             return (drivingForce + socialForce + granularForce) / mass;
@@ -82,15 +83,15 @@ public class Match {
                 }
                 Position playerPosition = player.getPosition(dataTime);
                 double normalVersorPlayerY = (playerPosition.y() - r) / Math.sqrt(Math.pow(playerPosition.x() - virtualPlayer.x(), 2) + Math.pow(playerPosition.y() - r, 2));
-                double distance = Math.sqrt(Math.pow(playerPosition.x() - r, 2) + Math.pow(playerPosition.y() - virtualPlayer.y(), 2)) - 2 * PLAYER_RADIUS;
-                socialForce += SOCIAL_FORCE_A * Math.exp(- distance / SOCIAL_FORCE_B);
+                double distance = Math.sqrt(Math.pow(playerPosition.x() - virtualPlayer.x(), 2) + Math.pow(playerPosition.y() - r, 2)) - 2 * PLAYER_RADIUS;
+                socialForce += SOCIAL_FORCE_A * Math.exp(- distance / SOCIAL_FORCE_B) * normalVersorPlayerY;
                 granularForce += distance < 0 ? GRANULAR_FORCE_K * -distance * normalVersorPlayerY : 0;
             }
             return (drivingForce + socialForce + granularForce) / mass;
         };
 
-        Iterator<StateVariables> iteratorX = new NewVerlet(time, dt, accelerationX, virtualPlayer.x(), 0).iterator();
-        Iterator<StateVariables> iteratorY = new NewVerlet(time, dt, accelerationY, virtualPlayer.y(), 0).iterator();
+        Iterator<StateVariables> iteratorX = new Beeman(time, dt, accelerationX, virtualPlayer.x(), 0).iterator();
+        Iterator<StateVariables> iteratorY = new Beeman(time, dt, accelerationY, virtualPlayer.y(), 0).iterator();
 
         try (BufferedWriter writer = Files.newBufferedWriter(
                 Paths.get(filename),
