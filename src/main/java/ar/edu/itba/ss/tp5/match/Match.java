@@ -61,7 +61,7 @@ public class Match {
                     continue;
                 }
                 Position playerPosition = player.getPosition(dataTime);
-                double normalVersorPlayerX = (playerPosition.x() - r) / Math.sqrt(Math.pow(playerPosition.x() - r, 2) + Math.pow(playerPosition.y() - virtualPlayer.y(), 2));
+                double normalVersorPlayerX = (r - playerPosition.x()) / Math.sqrt(Math.pow(r - playerPosition.x(), 2) + Math.pow(virtualPlayer.y() - playerPosition.y(), 2));
                 double distance = Math.sqrt(Math.pow(playerPosition.x() - r, 2) + Math.pow(playerPosition.y() - virtualPlayer.y(), 2)) - 2 * PLAYER_RADIUS;
                 socialForce += SOCIAL_FORCE_A * Math.exp(- distance / SOCIAL_FORCE_B) * normalVersorPlayerX;
                 granularForce += distance < 0 ? GRANULAR_FORCE_K * -distance * normalVersorPlayerX : 0;
@@ -82,7 +82,7 @@ public class Match {
                     continue;
                 }
                 Position playerPosition = player.getPosition(dataTime);
-                double normalVersorPlayerY = (playerPosition.y() - r) / Math.sqrt(Math.pow(playerPosition.x() - virtualPlayer.x(), 2) + Math.pow(playerPosition.y() - r, 2));
+                double normalVersorPlayerY = (r - playerPosition.y()) / Math.sqrt(Math.pow(virtualPlayer.x() - playerPosition.x(), 2) + Math.pow(r - playerPosition.y(), 2));
                 double distance = Math.sqrt(Math.pow(playerPosition.x() - virtualPlayer.x(), 2) + Math.pow(playerPosition.y() - r, 2)) - 2 * PLAYER_RADIUS;
                 socialForce += SOCIAL_FORCE_A * Math.exp(- distance / SOCIAL_FORCE_B) * normalVersorPlayerY;
                 granularForce += distance < 0 ? GRANULAR_FORCE_K * -distance * normalVersorPlayerY : 0;

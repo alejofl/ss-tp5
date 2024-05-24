@@ -53,7 +53,8 @@ for file, desired_velocity in zip(files, DESIRED_VELOCITIES):
 
     distances = []
     for player, ball in zip(virtual_player_data, ball_positions):
-        distances.append(distance(float(player[1]), float(player[2]), ball[0], ball[1]))
+        player_x, player_y = convert_xy_to_system_reference(player[1], player[2], False)
+        distances.append(distance(player_x, player_y, ball[0], ball[1]))
 
     # print(distances)
     xs.append(desired_velocity)

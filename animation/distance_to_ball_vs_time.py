@@ -53,8 +53,9 @@ for file, legend in zip(files, LEGENDS):
     xs = []
     ys = []
     for player, ball in zip(virtual_player_data, ball_positions):
+        player_x, player_y = convert_xy_to_system_reference(player[1], player[2], False)
         xs.append(float(player[0]))
-        ys.append(distance(float(player[1]), float(player[2]), ball[0], ball[1]))
+        ys.append(distance(player_x, player_y, ball[0], ball[1]))
 
     line, = ax.plot(xs, ys, linewidth=2.0, label=legend)
     legends.append(line)
