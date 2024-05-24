@@ -9,7 +9,6 @@ import ar.edu.itba.ss.tp5.utils.Teams;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.Array;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -122,8 +121,7 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-        //findOptimumTime();
+    public static void runSimulation(double distanceToBall, double desiredVelocity, double relaxingTime, double mass, String filename) {
         final Player homePlayer11 = new Player("Player11", Teams.HOME);
         final Player homePlayer1 = new Player("Player1", Teams.HOME);
         final Player homePlayer2 = new Player("Player2", Teams.HOME);
@@ -190,6 +188,14 @@ public class Main {
             System.exit(2);
         }
 
+        // Simulation
+        final Match match = new Match(players, ball, distanceToBall, desiredVelocity, relaxingTime, mass, 57.24);
+        match.simulate(177.76, filename);
+    }
+
+    public static void main(String[] args) {
+        //findOptimumTime();
+
         List<String> input = null;
         try (Stream<String> stream = Files.lines(Paths.get("input.txt"))) {
             input = stream.toList();
@@ -206,8 +212,27 @@ public class Main {
         final double relaxingTime = Double.parseDouble(input.get(2));
         final double mass = Double.parseDouble(input.get(3));
 
-        // Simulation
-        final Match match = new Match(players, ball, distanceToBall, desiredVelocity, relaxingTime, mass, 57.24);
-        match.simulate(177.76, "output.txt");
+        // Run for input.txt values
+//        runSimulation(distanceToBall, desiredVelocity, relaxingTime, mass, "output.txt");
+
+        // Run for different desired velocities
+//        List<Double> desiredVelocities = new ArrayList<>();
+//        for (double i = 0.1; i <= 13; i += 0.1) {
+//            desiredVelocities.add(i);
+//        }
+//
+//        desiredVelocities.parallelStream().forEach(velocity -> {
+//            runSimulation(distanceToBall, velocity, relaxingTime, mass, String.format("output_velocity_%.1f.txt", velocity));
+//        });
+
+        // Run for different relaxing times
+        List<Double> relaxingTimes = new ArrayList<>();
+        for (double i = 0.1; i <= 1; i += 0.05) {
+            relaxingTimes.add(i);
+        }
+
+        relaxingTimes.parallelStream().forEach(time -> {
+            runSimulation(distanceToBall, desiredVelocity, time, mass, String.format("output_tau_%.2f.txt", time));
+        });
     }
 }
