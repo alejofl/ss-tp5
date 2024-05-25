@@ -228,12 +228,12 @@ public class Main {
 
         // Run for different relaxing times
 //        List<Double> relaxingTimes = new ArrayList<>();
-//        for (double i = 0.1; i <= 1; i += 0.05) {
+//        for (double i = 0.1; i <= 1; i += 0.1) {
 //            relaxingTimes.add(i);
 //        }
 //
 //        relaxingTimes.parallelStream().forEach(time -> {
-//            runSimulation(distanceToBall, desiredVelocity, time, mass, String.format("output_tau_%.2f.txt", time));
+//            runSimulation(distanceToBall, desiredVelocity, time, mass, String.format("output_tau_%.1f.txt", time));
 //        });
     }
 }

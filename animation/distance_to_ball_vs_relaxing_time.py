@@ -5,10 +5,7 @@ import os.path
 
 
 ########### CONSTANT VARIABLES ###########
-# VIRTUAL_PLAYER_FILENAMES = ["output_velocity_{:.1f}.txt".format(x) for x in [0.1, 3, 5, 8, 10, 13]]
-# LEGENDS = ["v = 0.1 m/s", "v = 3 m/s", "v = 5 m/s", "v = 8 m/s", "v = 10 m/s", "v = 13 m/s"]
-VIRTUAL_PLAYER_FILENAMES = ["output_tau_{:.1f}.txt".format(x) for x in [0.1, 0.5, 0.8, 1]]
-LEGENDS = ["$\\tau$ = 0.1 s", "$\\tau$ = 0.5 s", "$\\tau$ = 0.8 s", "$\\tau$ = 1 s"]
+RELAXING_TIMES = np.arange(0.1, 1.1, 0.1)
 HOME_FILENAME = "TrackingData_Local.csv"
 AWAY_FILENAME = "TrackingData_Visitante.csv"
 LIMIT_X = 105
@@ -45,26 +42,29 @@ for home, away in zip(home_data, away_data):
 
 plt.rcParams.update({'font.size': 20})
 fig, ax = plt.subplots()
-legends = []
+xs = []
+ys = []
+errors = []
 
-files = [open(os.path.join(os.path.dirname(__file__), "..", f"{filename}")) for filename in VIRTUAL_PLAYER_FILENAMES]
-for file, legend in zip(files, LEGENDS):
+files = [open(os.path.join(os.path.dirname(__file__), "..", "output_tau_{:.1f}.txt".format(tau))) for tau in RELAXING_TIMES]
+for file, relaxing_time in zip(files, RELAXING_TIMES):
     virtual_player_data = list(csv.reader(file, delimiter=" "))[:-1]
     file.close()
 
-    xs = []
-    ys = []
+    distances = []
     for player, ball in zip(virtual_player_data, ball_positions):
         player_x, player_y = convert_xy_to_system_reference(player[1], player[2], False)
-        xs.append(float(player[0]))
-        ys.append(distance(player_x, player_y, ball[0], ball[1]))
+        distances.append(distance(player_x, player_y, ball[0], ball[1]))
 
-    line, = ax.plot(xs, ys, linewidth=2.0, label=legend)
-    legends.append(line)
+    # print(distances)
+    xs.append(relaxing_time)
+    ys.append(np.mean(distances))
+    errors.append(np.std(distances, ddof=1))
 
-ax.set_xlabel("Tiempo  $\\left( s \\right)$", fontdict={"weight": "bold"})
-ax.set_ylabel("Distancia loco-pelota  $\\left( m \\right)$", fontdict={"weight": "bold"})
-ax.legend(handles=legends)
+ax.errorbar(xs, ys, yerr=errors, fmt='o', capsize=5)
+
+ax.set_xlabel("Tiempo de relajación $\\tau$ $\\left( s \\right)$", fontdict={"weight": "bold"})
+ax.set_ylabel("Promedio de distancia loco-pelota $\\left( m \\right)$", fontdict={"weight": "bold"})
 # ax.ticklabel_format(axis="y", style="sci", useMathText=True)
 
 # Display the animation
