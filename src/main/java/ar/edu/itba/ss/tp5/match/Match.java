@@ -1,8 +1,7 @@
 package ar.edu.itba.ss.tp5.match;
 
-import ar.edu.itba.ss.tp5.integrator.NewVerlet;
+import ar.edu.itba.ss.tp4.integrator.NewVerlet;
 import ar.edu.itba.ss.tp4.utils.StateVariables;
-import ar.edu.itba.ss.tp5.integrator.Beeman;
 import ar.edu.itba.ss.tp5.utils.Position;
 
 import java.io.BufferedWriter;
@@ -90,8 +89,8 @@ public class Match {
             return (drivingForce + socialForce + granularForce) / mass;
         };
 
-        Iterator<StateVariables> iteratorX = new Beeman(time, dt, accelerationX, virtualPlayer.x(), 0).iterator();
-        Iterator<StateVariables> iteratorY = new Beeman(time, dt, accelerationY, virtualPlayer.y(), 0).iterator();
+        Iterator<StateVariables> iteratorX = new NewVerlet(time, dt, accelerationX, virtualPlayer.x(), 0).iterator();
+        Iterator<StateVariables> iteratorY = new NewVerlet(time, dt, accelerationY, virtualPlayer.y(), 0).iterator();
 
         try (BufferedWriter writer = Files.newBufferedWriter(
                 Paths.get(filename),
