@@ -1,10 +1,7 @@
 import csv
 import os
 import matplotlib.pyplot as plt
-import matplotlib.patches as ptchs
 import numpy as np
-from PIL import Image
-from matplotlib.animation import FuncAnimation, FFMpegWriter
 from scipy.stats import gaussian_kde
 
 ########### CONSTANT VARIABLES ###########
@@ -13,8 +10,6 @@ HOME_FILENAME = "TrackingData_Local.csv"
 AWAY_FILENAME = "TrackingData_Visitante.csv"
 LIMIT_X = 105
 LIMIT_Y = 68
-PEOPLE_RADIUS = 0.75
-BALL_RADIUS = 0.5
 START_PLAYERS_INDEX = 1433
 END_PLAYERS_INDEX = 4446
 MAX_VELOCITY = 5.5
