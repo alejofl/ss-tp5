@@ -35,8 +35,9 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
     # Entre cada i e i+1, calcular la distancia entre el jugador y la pelota
     vel_crazy_guy = []
     for i in range(len(virtual_player_data) - 1):
-        distance = np.sqrt((float(virtual_player_data[i][1]) - float(virtual_player_data[i+1][1]))**2 +
-                              (float(virtual_player_data[i][2]) - float(virtual_player_data[i+1][2]))**2)
+        crazy_guy_x, crazy_guy_y = convert_xy_to_system_reference(virtual_player_data[i][1], virtual_player_data[i][2], False)
+        crazy_guy_x_next, crazy_guy_y_next = convert_xy_to_system_reference(virtual_player_data[i+1][1], virtual_player_data[i+1][2], False)
+        distance = np.sqrt((crazy_guy_x - crazy_guy_x_next)**2 + (crazy_guy_y - crazy_guy_y_next)**2)
         vel_crazy_guy.append(distance/0.04)
 
     # Tomare los jugadores 1, 6 y 11 del equipo local
@@ -90,6 +91,7 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
     pdf_player_6 = kde_3(x_vals_player_6)
     pdf_player_11 = kde_4(x_vals_player_11)
 
+    plt.rcParams.update({'font.size': 20})
     fig, ax = plt.subplots()
 
     # Grafica la PDF
@@ -103,7 +105,7 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
     ax.plot(x_vals_player_6, pdf_player_6, label='PDF del jugador 6')
     ax.plot(x_vals_player_11, pdf_player_11, label='PDF del jugador 11')
 
-    ax.set_xlabel("Velocidad$\\left( m/s \\right)$", fontdict={"weight": "bold"})
+    ax.set_xlabel("Velocidad $\\left( m/s \\right)$", fontdict={"weight": "bold"})
     ax.set_ylabel("Densidad de probabilidad $\\left( s \\right)$", fontdict={"weight": "bold"})
     ax.legend()
     plt.xlim(0, MAX_VELOCITY)

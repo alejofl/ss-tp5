@@ -42,6 +42,7 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
             data.append((away_x, away_y))
 
 
+    plt.rcParams.update({'font.size': 20})
     fig, ax = plt.subplots()
 
     # Crear un histograma 2D de las posiciones de los jugadores con celdas de 1x1
@@ -54,19 +55,18 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
     # Medidas/2
     div = 2
 
-    heatmap, xedges, yedges = np.histogram2d(np.array(data)[:, 0], np.array(data)[:, 1], bins=[int(np.ceil(105/div)), int(np.ceil(68/div))], range=[[0, 105], [0, 68]])
+    heatmap, xedges, yedges = np.histogram2d(np.array(data)[:, 0], np.array(data)[:, 1], bins=[int(np.ceil(LIMIT_X/div)), int(np.ceil(LIMIT_Y/div))], range=[[0, LIMIT_X], [0, LIMIT_Y]])
 
     # Dibujar el mapa de calor con diferentes colores
     # plt.imshow(heatmap.T, cmap='tab20', extent=[0, 105, 0, 68], origin='lower', aspect='auto')
     # plt.imshow(heatmap.T, cmap='hot', extent=[0, 105, 0, 68], origin='lower', aspect='auto')
     # plt.imshow(heatmap.T, cmap='summer', extent=[0, 105, 0, 68], origin='lower', aspect='auto')
     # plt.imshow(heatmap.T, cmap='gist_rainbow', extent=[0, 105, 0, 68], origin='lower', aspect='auto')
-    plt.imshow(heatmap.T, cmap='plasma', extent=[0, 105, 0, 68], origin='lower', aspect='auto')
+    plt.imshow(heatmap.T, cmap='plasma', extent=[0, LIMIT_X, 0, LIMIT_Y], origin='lower', aspect='auto')
     plt.colorbar()
 
     ax.set_xlabel("X", fontdict={"weight": "bold"})
     ax.set_ylabel("Y", fontdict={"weight": "bold"})
-    plt.title('Heatmap de los jugadores')
 
     plt.show()
 
@@ -77,23 +77,23 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
     # # El loco
     # data = []
     # for i in range(len(crazy_guy_data)):
-    #     x, y = crazy_guy_data[i][1], crazy_guy_data[i][2]
+    #     x, y = convert_xy_to_system_reference(crazy_guy_data[i][1], crazy_guy_data[i][2], False)
     #     data.append((x, y))
     #
+    # plt.rcParams.update({'font.size': 20})
     # fig, ax = plt.subplots()
     #
     # # Crear un histograma 2D de las posiciones de los jugadores con celdas de 1x1
     # div = 2
     #
-    # heatmap, xedges, yedges = np.histogram2d(np.array(data)[:, 0], np.array(data)[:, 1], bins=[int(np.ceil(105/div)), int(np.ceil(68/div))], range=[[0, 105], [0, 68]])
+    # heatmap, xedges, yedges = np.histogram2d(np.array(data)[:, 0], np.array(data)[:, 1], bins=[int(np.ceil(LIMIT_X/div)), int(np.ceil(LIMIT_Y/div))], range=[[0, LIMIT_X], [0, LIMIT_Y]])
     #
     # # Dibujar el mapa de calor con diferentes colores
-    # plt.imshow(heatmap.T, cmap='plasma', extent=[0, 105, 0, 68], origin='lower', aspect='auto')
+    # plt.imshow(heatmap.T, cmap='plasma', extent=[0, LIMIT_X, 0, LIMIT_Y], origin='lower', aspect='auto')
     # plt.colorbar()
     #
     # ax.set_xlabel("X", fontdict={"weight": "bold"})
     # ax.set_ylabel("Y", fontdict={"weight": "bold"})
-    # plt.title('Heatmap del loco')
     #
     # plt.show()
     # #--------------------------------------------------------------------------------------------
@@ -106,20 +106,20 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
     #         home_x, home_y = convert_xy_to_system_reference(home_data[i][j], home_data[i][j+1])
     #         data.append((home_x, home_y))
     #
+    # plt.rcParams.update({'font.size': 20})
     # fig, ax = plt.subplots()
     #
     # # Crear un histograma 2D de las posiciones de los jugadores con celdas de 1x1
     # div = 2
     #
-    # heatmap, xedges, yedges = np.histogram2d(np.array(data)[:, 0], np.array(data)[:, 1], bins=[int(np.ceil(105/div)), int(np.ceil(68/div))], range=[[0, 105], [0, 68]])
+    # heatmap, xedges, yedges = np.histogram2d(np.array(data)[:, 0], np.array(data)[:, 1], bins=[int(np.ceil(LIMIT_X/div)), int(np.ceil(LIMIT_Y/div))], range=[[0, LIMIT_X], [0, LIMIT_Y]])
     #
     # # Dibujar el mapa de calor con diferentes colores
-    # plt.imshow(heatmap.T, cmap='plasma', extent=[0, 105, 0, 68], origin='lower', aspect='auto')
+    # plt.imshow(heatmap.T, cmap='plasma', extent=[0, LIMIT_X, 0, LIMIT_Y], origin='lower', aspect='auto')
     # plt.colorbar()
     #
     # ax.set_xlabel("X", fontdict={"weight": "bold"})
     # ax.set_ylabel("Y", fontdict={"weight": "bold"})
-    # plt.title('Heatmap del loco')
     #
     # plt.show()
     # #--------------------------------------------------------------------------------------------
@@ -132,20 +132,20 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
     #         home_x, home_y = convert_xy_to_system_reference(home_data[i][j], home_data[i][j+1])
     #         data.append((home_x, home_y))
     #
+    # plt.rcParams.update({'font.size': 20})
     # fig, ax = plt.subplots()
     #
     # # Crear un histograma 2D de las posiciones de los jugadores con celdas de 1x1
     # div = 2
     #
-    # heatmap, xedges, yedges = np.histogram2d(np.array(data)[:, 0], np.array(data)[:, 1], bins=[int(np.ceil(105/div)), int(np.ceil(68/div))], range=[[0, 105], [0, 68]])
+    # heatmap, xedges, yedges = np.histogram2d(np.array(data)[:, 0], np.array(data)[:, 1], bins=[int(np.ceil(LIMIT_X/div)), int(np.ceil(LIMIT_Y/div))], range=[[0, LIMIT_X], [0, LIMIT_Y]])
     #
     # # Dibujar el mapa de calor con diferentes colores
-    # plt.imshow(heatmap.T, cmap='plasma', extent=[0, 105, 0, 68], origin='lower', aspect='auto')
+    # plt.imshow(heatmap.T, cmap='plasma', extent=[0, LIMIT_X, 0, LIMIT_Y], origin='lower', aspect='auto')
     # plt.colorbar()
     #
     # ax.set_xlabel("X", fontdict={"weight": "bold"})
     # ax.set_ylabel("Y", fontdict={"weight": "bold"})
-    # plt.title('Heatmap del loco')
     #
     # plt.show()
     # #--------------------------------------------------------------------------------------------
@@ -158,20 +158,20 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
     #         home_x, home_y = convert_xy_to_system_reference(home_data[i][j], home_data[i][j+1])
     #         data.append((home_x, home_y))
     #
+    # plt.rcParams.update({'font.size': 20})
     # fig, ax = plt.subplots()
     #
     # # Crear un histograma 2D de las posiciones de los jugadores con celdas de 1x1
     # div = 2
     #
-    # heatmap, xedges, yedges = np.histogram2d(np.array(data)[:, 0], np.array(data)[:, 1], bins=[int(np.ceil(105/div)), int(np.ceil(68/div))], range=[[0, 105], [0, 68]])
+    # heatmap, xedges, yedges = np.histogram2d(np.array(data)[:, 0], np.array(data)[:, 1], bins=[int(np.ceil(LIMIT_X/div)), int(np.ceil(LIMIT_Y/div))], range=[[0, LIMIT_X], [0, LIMIT_Y]])
     #
     # # Dibujar el mapa de calor con diferentes colores
-    # plt.imshow(heatmap.T, cmap='plasma', extent=[0, 105, 0, 68], origin='lower', aspect='auto')
+    # plt.imshow(heatmap.T, cmap='plasma', extent=[0, LIMIT_X, 0, LIMIT_Y], origin='lower', aspect='auto')
     # plt.colorbar()
     #
     # ax.set_xlabel("X", fontdict={"weight": "bold"})
     # ax.set_ylabel("Y", fontdict={"weight": "bold"})
-    # plt.title('Heatmap del loco')
     #
     # plt.show()
     # #--------------------------------------------------------------------------------------------
