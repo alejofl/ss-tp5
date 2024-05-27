@@ -179,7 +179,7 @@
                 \end{block}
             \end{frame}
 
-        \subsection{Elección del periodo de simulación}
+        \subsection{Cálculo de variables importantes}
 
             \begin{frame}{Elección del periodo de simulación}
                 \begin{itemize}
@@ -201,78 +201,58 @@
                 \end{beamercolorbox}
             \end{frame}
 
+            \begin{frame}{Cálculo de la velocidad de deseo en cada instante}
+                \begin{itemize}
+                    \item Tomamos el módulo de la velocidad de deseo de parámetro de entrada.
+                    \item Obtenemos la velocidad de deseo en cada instante $t$:
+                        \begin{equation*}
+                            \hat{e_n} = \frac{\vec{r}(t)_{pelota} - \vec{r}(t)_{loco}}{||\vec{r}(t)_{pelota} - \vec{r}(t)_{loco}||}= (e_n \hat{\imath}, e_n \hat{\jmath})
+                        \end{equation*}
+                        \begin{equation*}
+                            \vec{v_d} = |v_d| \cdot \hat{e_n}
+                        \end{equation*}
+                \end{itemize}
+            \end{frame}
+
         \subsection{Observables}
 
-            \begin{frame}{Conservación de la Energía en el sistema}
+            \begin{frame}{Distancia entre el jugador virtual y la pelota}
+                \begin{equation*}
+                    d = \sqrt{(x_{pelota} - x_{loco})^2 + (y_{pelota} - y_{loco})^2} - R_{loco}
+                \end{equation*}
                 \begin{itemize}
-                    \item Energía Cinética:
+                    \item Se busca minimizar la distancia entre el jugador virtual y la pelota, variando $v_d$ y $\tau$.
+                    \item $d$ no presenta un comportamiento gaussiano $\Rightarrow$ Cuando se toman promedios, el error se calcula como:
                     \begin{equation*}
-                        K_{p} = \frac{1}{2} m_{p} v_{p}^2
-                    \end{equation*}
-                    \item Energía Potencial:
-                    \begin{equation*}
-                        U_{(p_1,p_2)} = - G \left( \frac{m_{p_1} m_{p_2}}{\sqrt{(x_{p_1} - x_{p_2})^2 + (y_{p_1} - y_{p_2})^2}} \right)
-                    \end{equation*}
-                    \item Conservación de la Energía en el sistema:
-                    \begin{equation*}
-                        K_{total} + U_{total} = \text{constante}
+                        E = \frac{\sigma}{\sqrt{N}}\ ;\ \sigma = \text{desvío estándar}\ ;\ N = \text{cantidad de datos}
                     \end{equation*}
                 \end{itemize}
             \end{frame}
 
-            \begin{frame}{Momento de partida de la nave para llegar a Marte}
+            \begin{frame}{Módulo de la velocidad de distintos jugadores}
+                \begin{equation*}
+                    \vec{v}(t) = \frac{\vec{r}(t) - \vec{r}(t - \Delta t)}{\Delta t}\ ;\ \Delta t = 0.04 \text{s}
+                \end{equation*}
                 \begin{itemize}
-                    \item 730 lanzamientos (1 por día). Obtenemos día que logra distancia mínima.
-                    \item 48 lanzamientos (1 por hora) para el día obtenido y el anterior. Obtenemos hora que logra distancia mínima.
-                    \item 120 lanzamientos (1 por minuto) para la hora obtenida y la anterior. Obtenemos minuto que logra distancia mínima.
-                    \item Distancia entre la nave y marte:
-                    \begin{equation*}
-                        d_{(ship, mars)} = \sqrt{(x_{ship} - x_{mars})^2 + (y_{ship} - y_{mars})^2}
-                    \end{equation*}
-                \end{itemize}
-            \end{frame}
-
-            \begin{frame}{Variación módulo de velocidad de la nave para llegar a Marte}
-                \begin{itemize}
-                    \item Obtenemos la velocidad de la nave en coordenadas cartesianas.
-                    \begin{minipage}[t]{0.55\textwidth}
-                        \begin{equation*}
-                            \hat{e_n} = \frac{\vec{r}_{ship} - \vec{r}_{earth}}{||\vec{r}_{ship} - \vec{r}_{earth}||}= (e_n \hat{\imath}, e_n \hat{\jmath})
-                        \end{equation*}
-                    \end{minipage}
-                    \hfill
-                    \begin{minipage}[t]{0.3\textwidth}
-                        \begin{equation*}
-                            \hat{e_t} = (-e_n \hat{\imath}, e_n \hat{\jmath})
-                        \end{equation*}
-                    \end{minipage}
-                    \begin{equation*}
-                        v_{x_{ship}} = v_{x_{earth}} + v_{shipTangRelEarth} \cdot e_t \hat{\imath}
-                    \end{equation*}
-                    \begin{equation*}
-                        v_{y_{ship}} = v_{y_{earth}} +v_{shipTangRelEarth} \cdot e_t \hat{\jmath}
-                    \end{equation*}
-                    \begin{equation*}
-                        v_{shipTangRelEarth} = 7,12km/s + \alpha
-                    \end{equation*}
-                    \begin{equation*}
-                        \alpha \in \{7,9;7,901;...;8,099;8,1\}km/s
-                    \end{equation*}
-                \end{itemize}
-            \end{frame}
-
-            \begin{frame}{Misión Júpiter}
-                \begin{itemize}
-                    \item Se agrega el planeta Júpiter al sistema.
-                    \item La órbita de Júpiter es de 12 años, pero se simulan 5 dado que existe un patrón.
-                    \item Se realiza el mismo análisis que para el viaje a Marte.
-                    \item Parámetros fijos:
+                    \item Se eliminan las velocidades que superen los $TODO$ m/s.
+                    \item Se estudia la función de densidad de probabilidad de la velocidad de los jugadores.
                     \begin{itemize}
-                        \item $m_{jupiter}$: \alert{$1,898\times 10^{27}kg$}
-                        \item $R_{jupiter}$: \alert{$69911km$}
-                        \item $\vec{r}_{jupiter}$: \alert{$(4,197\times 10^{8}; 6,209\times 10^{8})km$}
-                        \item $\vec{v}_{jupiter}$: \alert{$(-1,098\times 10; 7,940)km/s$}
+                        \item Se calcula el número de bins usando la \alert{regla de Sturges}.
+                        \item Se calcula el ancho de los bins usando el \alert{método de Scott}.
                     \end{itemize}
+                \end{itemize}
+            \end{frame}
+
+            \begin{frame}{Número de visitas a zonas de la cancha por minuto ($\Psi$)}
+                \begin{itemize}
+                    \item Se divide la cancha en zonas de $TODO \times TODO \text{ m}^2$.
+                    \begin{equation*}
+                        \Psi = \frac{\sum_{i \in \text{jugadores}} \#visitas_i}{D}
+                    \end{equation*}
+                    \begin{equation*}
+                        D = \text{periodo de simulación} = 2.008 \text{ minutos}
+                    \end{equation*}
+                    \item Se estudia $\Psi$ utilizando un \alert{heatmap}.
                 \end{itemize}
             \end{frame}
 
@@ -282,31 +262,16 @@
 
             \begin{frame}{Animación del sistema}{}
                 \vspace*{-0.3cm}
-                \begin{minipage}[t]{0.49\textwidth}
-                    \begin{figure}[H!]
-                        \includegraphics[width=\textwidth]{./animacion_marte_1}
-                        \caption*{Véase la animación completa en \url{https://youtu.be/1PgQa7WLQ6g}.}
-                        \label{fig:marte_1}
-                    \end{figure}
-                    \vspace*{-0.5cm}
-                    \begin{beamercolorbox}[sep=5pt,center]{block body}
-                        \centering
-                        \small{Día de partida: 0}
-                    \end{beamercolorbox}
-                \end{minipage}
-                \hfill
-                \begin{minipage}[t]{0.49\textwidth}
-                    \begin{figure}[H!]
-                        \includegraphics[width=\textwidth]{./animacion_marte_2}
-                        \caption*{Véase la animación completa en \url{https://youtu.be/MAS-4i-Jz9Q}.}
-                        \label{fig:marte_2}
-                    \end{figure}
-                    \vspace*{-0.5cm}
-                    \begin{beamercolorbox}[sep=5pt,center]{block body}
-                        \centering
-                        \small{Día de partida: 172}
-                    \end{beamercolorbox}
-                \end{minipage}
+                \begin{figure}[H!]
+                    \includegraphics[width=\textwidth]{./animacion_1}
+                    \caption*{Véase la animación completa en \url{TODO}.}
+                    \label{fig:futbol_1}
+                \end{figure}
+                \vspace*{-0.5cm}
+                \begin{beamercolorbox}[sep=5pt,center]{block body}
+                    \centering
+                    \small{$v_d = 5$ m/s ; $\tau = 0.5$ s}
+                \end{beamercolorbox}
             \end{frame}
 
         \subsection{Elección del $\Delta t$}

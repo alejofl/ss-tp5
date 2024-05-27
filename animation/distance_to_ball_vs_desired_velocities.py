@@ -1,6 +1,7 @@
 import csv
 import matplotlib.pyplot as plt
 import numpy as np
+import scipy.stats as ss
 import os.path
 
 
@@ -59,7 +60,7 @@ for file, desired_velocity in zip(files, DESIRED_VELOCITIES):
     # print(distances)
     xs.append(desired_velocity)
     ys.append(np.mean(distances))
-    errors.append(np.std(distances, ddof=1))
+    errors.append(ss.sem(distances))
 
 ax.errorbar(xs, ys, yerr=errors, fmt='o', capsize=5)
 
