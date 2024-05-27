@@ -12,7 +12,8 @@ LIMIT_X = 105
 LIMIT_Y = 68
 START_PLAYERS_INDEX = 1433
 END_PLAYERS_INDEX = 4446
-MAX_VELOCITY = 5.5
+MAX_VELOCITY = 8
+BIN_WIDTH = 0.4
 ##########################################
 
 
@@ -62,52 +63,21 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
         vel_player_6.append(distance_p6/0.04)
         vel_player_11.append(distance_p11/0.04)
 
-    velocities_crazy_guy = [v for v in vel_crazy_guy if v <= MAX_VELOCITY]
-    velocities_player_1 = [v for v in vel_player_1 if v <= MAX_VELOCITY]
-    velocities_player_6 = [v for v in vel_player_6 if v <= MAX_VELOCITY]
-    velocities_player_11 = [v for v in vel_player_11 if v <= MAX_VELOCITY]
+    vel = [vel_crazy_guy, vel_player_1, vel_player_6, vel_player_11]
+    vel_label = ["PDF del loco", "PDF del Jugador 1", "PDF del Jugador 6", "PDF del Jugador 11"]
 
-    # Estimación de la densidad de kernel
-    kde_1 = gaussian_kde(velocities_crazy_guy, bw_method='scott')
-    kde_2 = gaussian_kde(velocities_player_1, bw_method='scott')
-    kde_3 = gaussian_kde(velocities_player_6, bw_method='scott')
-    kde_4 = gaussian_kde(velocities_player_11, bw_method='scott')
-
-    # Calcular el número de puntos usando la regla de Sturges redondeando hacia arriba
-    n_bins_crazy_guy = int(np.ceil(np.log2(len(velocities_crazy_guy)) + 1))
-    n_bins_player_1 = int(np.ceil(np.log2(len(velocities_player_1)) + 1))
-    n_bins_player_6 = int(np.ceil(np.log2(len(velocities_player_6)) + 1))
-    n_bins_player_11 = int(np.ceil(np.log2(len(velocities_player_11)) + 1))
-
-    # Valores para evaluar la PDF uniformemente
-    x_vals_crazy_guy = np.linspace(0, MAX_VELOCITY, n_bins_crazy_guy)
-    x_vals_player_1 = np.linspace(0, MAX_VELOCITY, n_bins_player_1)
-    x_vals_player_6 = np.linspace(0, MAX_VELOCITY, n_bins_player_6)
-    x_vals_player_11 = np.linspace(0, MAX_VELOCITY, n_bins_player_11)
-
-    # Calcula la PDF en los valores dados
-    pdf_crazy_guy = kde_1(x_vals_crazy_guy)
-    pdf_player_1 = kde_2(x_vals_player_1)
-    pdf_player_6 = kde_3(x_vals_player_6)
-    pdf_player_11 = kde_4(x_vals_player_11)
-
-    plt.rcParams.update({'font.size': 20})
     fig, ax = plt.subplots()
 
-    # Grafica la PDF
-    ax.scatter(x_vals_crazy_guy, pdf_crazy_guy)
-    ax.scatter(x_vals_player_1, pdf_player_1)
-    ax.scatter(x_vals_player_6, pdf_player_6)
-    ax.scatter(x_vals_player_11, pdf_player_11)
-
-    ax.plot(x_vals_crazy_guy, pdf_crazy_guy, label='PDF del loco')
-    ax.plot(x_vals_player_1, pdf_player_1,  label='PDF del jugador 1')
-    ax.plot(x_vals_player_6, pdf_player_6, label='PDF del jugador 6')
-    ax.plot(x_vals_player_11, pdf_player_11, label='PDF del jugador 11')
+    for i in range(len(vel)):
+        bins = np.arange(0, np.max(vel[i]) + BIN_WIDTH, BIN_WIDTH)
+        hist, bin_edges = np.histogram(vel[i], bins=bins, density=True)
+        bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
+        # plt.bar(bin_centers, hist, width=BIN_WIDTH, alpha=0.5)
+        plt.plot(bin_centers, hist, marker='o', linestyle='-', label=vel_label[i])
 
     ax.set_xlabel("Velocidad $\\left( m/s \\right)$", fontdict={"weight": "bold"})
     ax.set_ylabel("Densidad de probabilidad $\\left( s \\right)$", fontdict={"weight": "bold"})
-    ax.legend()
     plt.xlim(0, MAX_VELOCITY)
+    plt.yscale("log")
+    ax.legend()
     plt.show()
-
