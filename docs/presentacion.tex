@@ -62,16 +62,15 @@
 
         \begin{frame}{Introducción}
             \begin{itemize}
-                \item Dinámica molecular regida por el paso temporal.
-                \item Simulación de un viaje espacial de una nave desde la Tierra a Marte en un espacio bidimensional.
+                \item Dinámica de interacción entre personas en movimiento.
+                \item Simulación de un jugador virtual que sigue a la pelota durante un partido de fútbol en dos dimensiones.
             \end{itemize}
             \begin{minipage}[t]{0.5\textwidth}
                 \begin{itemize}
                     \item Sistema real:
                     \begin{itemize}
-                        \item El sistema solar.
-                        \item Bolas de pool en una mesa de pool.
-                        \item Deposición de un átomo en una superficie.
+                        \item Procesos de evacuación.
+                        \item Predicción del flujo de personas.
                     \end{itemize}
                 \end{itemize}
             \end{minipage}
@@ -79,7 +78,7 @@
             \begin{minipage}[t]{0.45\textwidth}
                 \begin{figure}[H]
                     \centering
-                    \includegraphics[height=\linewidth]{./sistema_real}
+                    \includegraphics[width=\linewidth]{./sistema_real}
                     \label{fig:sistema_real}
                 \end{figure}
             \end{minipage}
@@ -87,17 +86,38 @@
 
         \subsection{Fundamentos}
 
-            \begin{frame}{Fundamentos}
+            \begin{frame}{Fundamentos: Social Force Model}
                 \begin{itemize}
-                    \item Fuerza de gravedad entre dos planetas:
+                    \item Sean $N$ peatones en un espacio bidimensional:
                         \begin{equation*}
-                            \vec{F}_{p_1; p_2} = G \frac{m_p_1\ m_p_2}{r_{p_1;p_2}^2} \vec{e}_{p_1; p_2}
+                            m_i \cdot \vec{a}_i = \vec{F}_{i}^{(granular)} + \vec{F}_{i}^{(social)} + \vec{F}_{i}^{(deseo)}
                         \end{equation*}
-                    \item Constante de gravitación universal:
+                    \item Distancia entre peatones:
                         \begin{equation*}
-                            G=6.6743 \times 10^{-20} \frac{km^3}{kg\ s^2}
+                            \varepsilon_{ij} = d_{ij} - (R_i + R_j)
+                        \end{equation*}
+                    \item Fuerza granular:
+                        \begin{equation*}
+                            \vec{F}_{i}^{(granular)} = \sum_{j \neq i}^{N} -k_n \cdot g(\varepsilon_{ij}) \cdot \vec{e}_{ij}^{n}\ ;\ g(w) = \begin{cases} w & \text{si } w < 0 \\ 0 & \text{si } w \geq 0 \end{cases}
                         \end{equation*}
                 \end{itemize}
+                \begin{minipage}[t]{0.49\textwidth}
+                    \begin{itemize}
+                        \item Fuerza social:
+                        \begin{equation*}
+                            \vec{F}_{i}^{(social)} = \sum_{j \neq i}^{N} A \cdot e^{\frac{-\varepsilon_{ij}}{B}} \cdot \vec{e}_{ij}^{n}
+                        \end{equation*}
+                    \end{itemize}
+                \end{minipage}
+                \hfill
+                \begin{minipage}[t]{0.49\textwidth}
+                    \begin{itemize}
+                        \item Fuerza de deseo:
+                        \begin{equation*}
+                            \vec{F}_{i}^{(deseo)} = m_i \cdot \frac{\vec{v}_i^{deseo} - \vec{v}_i}{\tau}
+                        \end{equation*}
+                    \end{itemize}
+                \end{minipage}
             \end{frame}
 
     \section{Implementación}
@@ -118,23 +138,19 @@
                 \begin{algorithmic}[1]
                     \ttfamily \scriptsize
                     \State Create output file
-                    \State earthAcc $\gets$ [earthAccX, earthAccY](sun, mars)
-                    \State marsAcc $\gets$ [marsAccX, marsAccY](sun, earth)
-                    \State integrators $\gets$ [earthAcc, marsAcc]
-                    \While{$t < departureTime + twoYears$}
-                        \If{$t = departureTime$}
-                            \State earthAcc $\gets$ [earthAccX, earthAccY](sun, mars, ship)
-                            \State marsAcc $\gets$ [marsAccX, marsAccY](sun, earth, ship)
-                            \State shipAcc $\gets$ [shipAccX, shipAccY](sun, earth, mars)
-                            \State integrators $\gets$ [earthAcc, marsAcc, shipAcc]
+                    \State accX $\gets$ \Call{function}{ball, players}
+                    \State accY $\gets$ \Call{function}{ball, players}
+                    \State integrators $\gets$ [accX, accY]
+                    \State $t$ $\gets$ startTime
+                    \State $i$ $\gets$ 0
+                    \While{$t$ $<$ endTime}
+                        \State crazyGuyX, crazyGuyY $\gets$ \Call{integrators.next}{}()
+                        \State \Call{UpdateStateVariables}{crazyGuyX, crazyGuyY}
+                        \If{$i \equiv 0(10)$}
+                            \State \Call{WriteOutput}{crazyGuyX, crazyGuyY}
                         \EndIf
-                        \State \Call{UpdateStateVariables}{earth}
-                        \State \Call{UpdateStateVariables}{mars}
-                        \If{$t \geq departureTime$}
-                            \State \Call{UpdateStateVariables}{ship}
-                        \EndIf
-                        \State \Call{WriteOutput}{earth, mars, ship}
-                        \State $i \gets i + dt$
+                        \State $t \gets t + dt$
+                        \State $i \gets i + 1$
                     \EndWhile
                 \end{algorithmic}
             \end{frame}
@@ -147,99 +163,96 @@
                 \begin{itemize}
                     \item Parámetros de entrada fijos:
                     \begin{itemize}
-                        \item $m_{sun}$: \alert{$2\times 10^{30}kg$}
-                        \item $R_{sun}$: \alert{$696340km$}
-                        \item $m_{earth}$: \alert{$5,9722\times 10^{24}kg$}
-                        \item $R_{earth}$: \alert{$6371km$}
-                        \item $\vec{r}_{earth}$: \alert{$(-1,219\times 10^{8}; -8,831\times 10^{7})km$}
-                        \item $\vec{v}_{earth}$: \alert{$(1,698\times 10; -2,423\times 10)km/s$}
-                        \item $m_{mars}$: \alert{$6,4\times 10^{23}kg$}
-                        \item $R_{mars}$: \alert{$3389,5km$}
-                        \item $\vec{r}_{mars}$: \alert{$(1,758\times 10^{8}; -1,087\times 10^{8})km$}
-                        \item $\vec{v}_{mars}$: \alert{$(1,366; 2,268)km/s$}
-                        \item $m_{ship}$: \alert{$2\times 10^{5} kg$}
-                        \item $d_{shipRelEarth}$: \alert{$1500km$}
+                        \item $d_{pelota-loco}$: \alert{$10$ m}
+                        \item $R_{jugadores}$: \alert{$0.3$ m}
+                        \item $m_{jugadores}$: \alert{$80$ kg}
+                        \item $r_{jugador_i}$: \alert{[$(x, y)$, ...]}
                     \end{itemize}
                     \item Parámetros de entrada variables:
                     \begin{itemize}
-                        \item $v_{shipTangRelEarth}$: \alert{$\{15,02; 15,021; ...; 15,219; 15,22\}km/s$}
-                        \item ${dt}$: \alert{$\{0,01;0,1;1;10;100;1000;10000\}s$}
+                        \item $v_d$: \alert{${0.1; 1; 2; 3; 4; ...; 13}$ m/s}
+                        \item $\tau$: \alert{$0.1; 0.2; ...; 1$ s}
                     \end{itemize}
+                \end{itemize}
+                \begin{block}{Dato curioso}
+                    Como método de integración se utilizó \textbf{Verlet 2.0}, presentado en el TP anterior.
+                \end{block}
+            \end{frame}
+
+        \subsection{Cálculo de variables importantes}
+
+            \begin{frame}{Elección del periodo de simulación}
+                \begin{itemize}
+                    \item Se busca un periodo \alert{$[t_i ; t_f]$} tal que:
+                    \begin{itemize}
+                        \item $t_i > 120$ s $\land\ t_f < 6000$ s
+                        \item Se mantengan los mismos jugadores en la cancha.
+                        \item $x_{pelota} \ne$ NaN $\land\ y_{pelota} \ne$ NaN $\forall t \in [t_i ; t_f]$
+                    \end{itemize}
+                    \item Se encuentra que:
+                    \begin{itemize}
+                        \item $\max\{[t_i ; t_f] : \text{mismos jugadores en la cancha}\} = [0.04 ; 3519.40]$
+                        \item $\max\{[t_i ; t_f] : x_{pelota} \ne \text{NaN} \land\ y_{pelota} \ne \text{NaN}\} = [57.24 ; 177.72]$
+                    \end{itemize}
+                \end{itemize}
+                \begin{beamercolorbox}[sep=5pt,center]{block body}
+                    \centering
+                    $\therefore [t_i ; t_f] = [57.24 ; 177.72] \Rightarrow D = 120.48$ s
+                \end{beamercolorbox}
+            \end{frame}
+
+            \begin{frame}{Cálculo de la velocidad de deseo en cada instante}
+                \begin{itemize}
+                    \item Tomamos el módulo de la velocidad de deseo de parámetro de entrada.
+                    \item Obtenemos la velocidad de deseo en cada instante $t$:
+                        \begin{equation*}
+                            \hat{e_n} = \frac{\vec{r}(t)_{pelota} - \vec{r}(t)_{loco}}{||\vec{r}(t)_{pelota} - \vec{r}(t)_{loco}||}= (e_n \hat{\imath}, e_n \hat{\jmath})
+                        \end{equation*}
+                        \begin{equation*}
+                            \vec{v_d} = |v_d| \cdot \hat{e_n}
+                        \end{equation*}
                 \end{itemize}
             \end{frame}
 
         \subsection{Observables}
 
-            \begin{frame}{Conservación de la Energía en el sistema}
+            \begin{frame}{Distancia entre el jugador virtual y la pelota}
+                \begin{equation*}
+                    d = \sqrt{(x_{pelota} - x_{loco})^2 + (y_{pelota} - y_{loco})^2} - R_{loco}
+                \end{equation*}
                 \begin{itemize}
-                    \item Energía Cinética:
+                    \item Se busca minimizar la distancia entre el jugador virtual y la pelota, variando $v_d$ y $\tau$.
+                    \item $d$ no presenta un comportamiento gaussiano $\Rightarrow$ Cuando se toman promedios, el error se calcula como:
                     \begin{equation*}
-                        K_{p} = \frac{1}{2} m_{p} v_{p}^2
-                    \end{equation*}
-                    \item Energía Potencial:
-                    \begin{equation*}
-                        U_{(p_1,p_2)} = - G \left( \frac{m_{p_1} m_{p_2}}{\sqrt{(x_{p_1} - x_{p_2})^2 + (y_{p_1} - y_{p_2})^2}} \right)
-                    \end{equation*}
-                    \item Conservación de la Energía en el sistema:
-                    \begin{equation*}
-                        K_{total} + U_{total} = \text{constante}
+                        E = \frac{\sigma}{\sqrt{N}}\ ;\ \sigma = \text{desvío estándar}\ ;\ N = \text{cantidad de datos}
                     \end{equation*}
                 \end{itemize}
             \end{frame}
 
-            \begin{frame}{Momento de partida de la nave para llegar a Marte}
+            \begin{frame}{Módulo de la velocidad de distintos jugadores}
+                \begin{equation*}
+                    \vec{v}(t) = \frac{\vec{r}(t) - \vec{r}(t - \Delta t)}{\Delta t}\ ;\ \Delta t = 0.04 \text{s}
+                \end{equation*}
                 \begin{itemize}
-                    \item 730 lanzamientos (1 por día). Obtenemos día que logra distancia mínima.
-                    \item 48 lanzamientos (1 por hora) para el día obtenido y el anterior. Obtenemos hora que logra distancia mínima.
-                    \item 120 lanzamientos (1 por minuto) para la hora obtenida y la anterior. Obtenemos minuto que logra distancia mínima.
-                    \item Distancia entre la nave y marte:
-                    \begin{equation*}
-                        d_{(ship, mars)} = \sqrt{(x_{ship} - x_{mars})^2 + (y_{ship} - y_{mars})^2}
-                    \end{equation*}
-                \end{itemize}
-            \end{frame}
-
-            \begin{frame}{Variación módulo de velocidad de la nave para llegar a Marte}
-                \begin{itemize}
-                    \item Obtenemos la velocidad de la nave en coordenadas cartesianas.
-                    \begin{minipage}[t]{0.55\textwidth}
-                        \begin{equation*}
-                            \hat{e_n} = \frac{\vec{r}_{ship} - \vec{r}_{earth}}{||\vec{r}_{ship} - \vec{r}_{earth}||}= (e_n \hat{\imath}, e_n \hat{\jmath})
-                        \end{equation*}
-                    \end{minipage}
-                    \hfill
-                    \begin{minipage}[t]{0.3\textwidth}
-                        \begin{equation*}
-                            \hat{e_t} = (-e_n \hat{\imath}, e_n \hat{\jmath})
-                        \end{equation*}
-                    \end{minipage}
-                    \begin{equation*}
-                        v_{x_{ship}} = v_{x_{earth}} + v_{shipTangRelEarth} \cdot e_t \hat{\imath}
-                    \end{equation*}
-                    \begin{equation*}
-                        v_{y_{ship}} = v_{y_{earth}} +v_{shipTangRelEarth} \cdot e_t \hat{\jmath}
-                    \end{equation*}
-                    \begin{equation*}
-                        v_{shipTangRelEarth} = 7,12km/s + \alpha
-                    \end{equation*}
-                    \begin{equation*}
-                        \alpha \in \{7,9;7,901;...;8,099;8,1\}km/s
-                    \end{equation*}
-                \end{itemize}
-            \end{frame}
-
-            \begin{frame}{Misión Júpiter}
-                \begin{itemize}
-                    \item Se agrega el planeta Júpiter al sistema.
-                    \item La órbita de Júpiter es de 12 años, pero se simulan 5 dado que existe un patrón.
-                    \item Se realiza el mismo análisis que para el viaje a Marte.
-                    \item Parámetros fijos:
+                    \item Se eliminan las velocidades que superen los $TODO$ m/s.
+                    \item Se estudia la función de densidad de probabilidad de la velocidad de los jugadores.
                     \begin{itemize}
-                        \item $m_{jupiter}$: \alert{$1,898\times 10^{27}kg$}
-                        \item $R_{jupiter}$: \alert{$69911km$}
-                        \item $\vec{r}_{jupiter}$: \alert{$(4,197\times 10^{8}; 6,209\times 10^{8})km$}
-                        \item $\vec{v}_{jupiter}$: \alert{$(-1,098\times 10; 7,940)km/s$}
+                        \item Se calcula el número de bins usando la \alert{regla de Sturges}.
+                        \item Se calcula el ancho de los bins usando el \alert{método de Scott}.
                     \end{itemize}
+                \end{itemize}
+            \end{frame}
+
+            \begin{frame}{Número de visitas a zonas de la cancha por minuto ($\Psi$)}
+                \begin{itemize}
+                    \item Se divide la cancha en zonas de $TODO \times TODO \text{ m}^2$.
+                    \begin{equation*}
+                        \Psi = \frac{\sum_{i \in \text{jugadores}} \#visitas_i}{D}
+                    \end{equation*}
+                    \begin{equation*}
+                        D = \text{periodo de simulación} = 2.008 \text{ minutos}
+                    \end{equation*}
+                    \item Se estudia $\Psi$ utilizando un \alert{heatmap}.
                 \end{itemize}
             \end{frame}
 
@@ -249,31 +262,16 @@
 
             \begin{frame}{Animación del sistema}{}
                 \vspace*{-0.3cm}
-                \begin{minipage}[t]{0.49\textwidth}
-                    \begin{figure}[H!]
-                        \includegraphics[width=\textwidth]{./animacion_marte_1}
-                        \caption*{Véase la animación completa en \url{https://youtu.be/1PgQa7WLQ6g}.}
-                        \label{fig:marte_1}
-                    \end{figure}
-                    \vspace*{-0.5cm}
-                    \begin{beamercolorbox}[sep=5pt,center]{block body}
-                        \centering
-                        \small{Día de partida: 0}
-                    \end{beamercolorbox}
-                \end{minipage}
-                \hfill
-                \begin{minipage}[t]{0.49\textwidth}
-                    \begin{figure}[H!]
-                        \includegraphics[width=\textwidth]{./animacion_marte_2}
-                        \caption*{Véase la animación completa en \url{https://youtu.be/MAS-4i-Jz9Q}.}
-                        \label{fig:marte_2}
-                    \end{figure}
-                    \vspace*{-0.5cm}
-                    \begin{beamercolorbox}[sep=5pt,center]{block body}
-                        \centering
-                        \small{Día de partida: 172}
-                    \end{beamercolorbox}
-                \end{minipage}
+                \begin{figure}[H!]
+                    \includegraphics[width=\textwidth]{./animacion_1}
+                    \caption*{Véase la animación completa en \url{TODO}.}
+                    \label{fig:futbol_1}
+                \end{figure}
+                \vspace*{-0.5cm}
+                \begin{beamercolorbox}[sep=5pt,center]{block body}
+                    \centering
+                    \small{$v_d = 5$ m/s ; $\tau = 0.5$ s}
+                \end{beamercolorbox}
             \end{frame}
 
         \subsection{Elección del $\Delta t$}

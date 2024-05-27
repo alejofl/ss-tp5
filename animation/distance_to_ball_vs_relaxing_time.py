@@ -1,6 +1,7 @@
 import csv
 import matplotlib.pyplot as plt
 import numpy as np
+import scipy.stats as ss
 import os.path
 
 
@@ -59,7 +60,8 @@ for file, relaxing_time in zip(files, RELAXING_TIMES):
     # print(distances)
     xs.append(relaxing_time)
     ys.append(np.mean(distances))
-    errors.append(np.std(distances, ddof=1))
+    errors.append(ss.sem(distances))
+    np
 
 ax.errorbar(xs, ys, yerr=errors, fmt='o', capsize=5)
 
