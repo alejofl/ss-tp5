@@ -1,0 +1,51 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+package tp4 {
+package integrators {
+interface Iterable<StatesVariables>
+
+interface IntegratorMethod extends Iterable {
+}
+
+class NewVerlet implements IntegratorMethod {
++ iterator()
+}
+}
+}
+
+package match {
+class Ball {
+- positionsMap
+- possesionsMap
+
++ getPosition(Double time)
+}
+
+class Player {
+- id
+- team
+- positionsMap
+
++ getPosition(Double time)
+}
+
+class Match {
+- distanceToBall
+- desiredVelocity
+- relaxingTime
+
++ simulate()
+}
+}
+
+class Main {
++ main()
+}
+
+Main *-- Match
+Match *-- NewVerlet
+Match *-- Ball
+Match *-- "many" Player
+
+@enduml

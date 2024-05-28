@@ -125,6 +125,7 @@
         \subsection{Arquitectura}
 
             \begin{frame}{Diagrama UML}
+                \vspace*{-0.2cm}
                 \begin{figure}[htbp]
                     \centering
                     \includegraphics[width=\textwidth]{./architecture}
@@ -274,196 +275,175 @@
                 \end{beamercolorbox}
             \end{frame}
 
-        \subsection{Elección del $\Delta t$}
+        \subsection{Distancia entre el jugador virtual y la pelota}
 
-            \begin{frame}{Energía perdida en función del tiempo}{Elección del $\Delta t$}
-                    \begin{figure}[H!]
-                        \includegraphics[width=0.9\textwidth]{./energia_perdida_vs_tiempo}
-                        \label{fig:marte_3}
-                    \end{figure}
-                    \begin{beamercolorbox}[sep=5pt,center]{block body}
-                        \centering
-                        \small{Estudio en 50 días}
-                    \end{beamercolorbox}
-            \end{frame}
-
-            \begin{frame}{Promedio de energía perdida vs $\Delta t$}{Elección del $\Delta t$}
-                \begin{figure}[H!]
-                    \includegraphics[width=0.9\textwidth]{./promedio_energia_perdida_vs_dt}
-                    \label{fig:marte_4}
-                \end{figure}
-                \begin{beamercolorbox}[sep=5pt,center]{block body}
-                    \centering
-                    \small{Estudio en 50 días}
-                \end{beamercolorbox}
-            \end{frame}
-
-        \subsection{Momento óptimo de partida para arribar a Marte}
-
-            \begin{frame}{Distancia mínima a Marte vs día de partida}{Momento óptimo de partida para arribar a Marte}
-                \begin{figure}[H!]
-                    \includegraphics[width=0.9\textwidth]{./distancia_a_marte_vs_dia_de_partida}
-                    \label{fig:marte_5}
-                \end{figure}
-                \begin{beamercolorbox}[sep=5pt,center]{block body}
-                    \centering
-                    \small{$\Delta t = 60s$ ; Misión exitosa si $d_{nave-marte} < 3520 km$}
-                \end{beamercolorbox}
-            \end{frame}
-
-            \begin{frame}{Distancia mínima a Marte vs hora de partida}{Momento óptimo de partida para arribar a Marte. A partir de 171d}
-                \begin{figure}[H!]
-                    \includegraphics[width=0.9\textwidth]{./distancia_a_marte_vs_hora_de_partida}
-                    \label{fig:marte_6}
-                \end{figure}
-                \begin{beamercolorbox}[sep=5pt,center]{block body}
-                    \centering
-                    \small{$\Delta t = 60s$ ; Misión exitosa si $d_{nave-marte} < 3520 km$}
-                \end{beamercolorbox}
-            \end{frame}
-
-            \begin{frame}{Distancia mínima a Marte vs minuto de partida}{Momento óptimo de partida para arribar a Marte. A partir de 171d 22h}
-                \begin{figure}[H!]
-                    \includegraphics[width=0.9\textwidth]{./distancia_a_marte_vs_minuto_de_partida}
-                    \label{fig:marte_7}
-                \end{figure}
-                \begin{beamercolorbox}[sep=5pt,center]{block body}
-                    \centering
-                    \small{$\Delta t = 60s$ ; $d_{nave-marte} = 2547.98 km$}
-                \end{beamercolorbox}
-            \end{frame}
-
-        \subsection{Velocidad de la nave vs tiempo}
-
-            \begin{frame}{Módulo de la velocidad de la nave vs tiempo}{Partida de la nave: 171d 23h 17m}
-                \begin{figure}[H!]
-                    \includegraphics[width=0.9\textwidth]{./velocity_vs_time_for_travel_to_mars}
-                    \label{fig:marte_8}
-                \end{figure}
-                \begin{beamercolorbox}[sep=5pt,center]{block body}
-                    \centering
-                    \small{$\Delta t = 60s$ ; $t_{vuelo} = 81d 15h 5m$}
-                \end{beamercolorbox}
-            \end{frame}
-
-        \subsection{Variación de la velocidad incial de la nave}
-
-            \begin{frame}{Distancia mínima a Marte vs velocidad inicial de la nave}{Partida de la nave: 171d 23h 17m}
-                \begin{figure}[H!]
-                    \includegraphics[width=0.9\textwidth]{./min_distance_vs_v0_logaritmica_line_in_10^4_scatter}
-                    \label{fig:marte_9}
-                \end{figure}
-                \begin{beamercolorbox}[sep=5pt,center]{block body}
-                    \centering
-                    \small{$\Delta t = 60s$ ; Misión exitosa si $d_{nave-marte} < 10^4 km$}
-                \end{beamercolorbox}
-            \end{frame}
-
-            \begin{frame}{Distancia mínima a Marte vs velocidad inicial de la nave}{Partida de la nave: 171d 23h 17m}
-                \begin{figure}[H!]
-                    \includegraphics[width=0.9\textwidth]{./min_distance_vs_v0_logaritmica_line_in_10^4_reduced_scatter}
-                    \label{fig:marte_10}
-                \end{figure}
-                \begin{beamercolorbox}[sep=5pt,center]{block body}
-                    \centering
-                    \small{$\Delta t = 60s$ ; Misión exitosa si $d_{nave-marte} < 10^4 km$}
-                \end{beamercolorbox}
-            \end{frame}
-
-            \begin{frame}{Tiempo de vuelo vs velocidad inicial de la nave}{Partida de la nave: 171d 23h 17m}
-                \begin{figure}[H!]
-                    \includegraphics[width=0.9\textwidth]{./time_vs_v0_for_v_less_10^4_scatter}
-                    \label{fig:marte_11}
-                \end{figure}
-                \begin{beamercolorbox}[sep=5pt,center]{block body}
-                    \centering
-                    \small{$\Delta t = 60s$ ; Misión exitosa si $d_{nave-marte} < 10^4 km$}
-                \end{beamercolorbox}
-            \end{frame}
-
-        \subsection{Sistema con Júpiter}
-
-            \begin{frame}{Animación del sistema}{}
+            \begin{frame}{Variación de $v_d$}{Animación #1}
                 \vspace*{-0.3cm}
-                \begin{minipage}[t]{0.49\textwidth}
+                \begin{figure}[H!]
+                    \includegraphics[width=\textwidth]{./animacion_2}
+                    \caption*{Véase la animación completa en \url{TODO}.}
+                    \label{fig:futbol_2}
+                \end{figure}
+                \vspace*{-0.5cm}
+                \begin{beamercolorbox}[sep=5pt,center]{block body}
+                    \centering
+                    \small{$v_d = 0.1$ m/s ; $\tau = 0.5$ s}
+                \end{beamercolorbox}
+            \end{frame}
+
+            \begin{frame}{Variación de $v_d$}{Animación #2}
+                \vspace*{-0.3cm}
+                \begin{figure}[H!]
+                    \includegraphics[width=\textwidth]{./animacion_3}
+                    \caption*{Véase la animación completa en \url{TODO}.}
+                    \label{fig:futbol_3}
+                \end{figure}
+                \vspace*{-0.5cm}
+                \begin{beamercolorbox}[sep=5pt,center]{block body}
+                    \centering
+                    \small{$v_d = 10$ m/s ; $\tau = 0.5$ s}
+                \end{beamercolorbox}
+            \end{frame}
+
+            \begin{frame}{Distancia entre el loco y la pelota en función del tiempo}{Variación de $v_d$}
                     \begin{figure}[H!]
-                        \includegraphics[width=\textwidth]{./animacion_jupiter_1}
-                        \caption*{Véase la animación completa en \url{https://youtu.be/uGcs41rDAmk}.}
-                        \label{fig:jupiter_1}
+                        \includegraphics[width=0.9\textwidth]{./distancia_vs_tiempo_vd}
+                        \label{fig:futbol_4}
                     \end{figure}
-                    \vspace*{-0.5cm}
                     \begin{beamercolorbox}[sep=5pt,center]{block body}
                         \centering
-                        \small{Día de partida: 0}
+                        \small{$\tau = 0.5$ s}
                     \end{beamercolorbox}
-                \end{minipage}
-                \hfill
-                \begin{minipage}[t]{0.49\textwidth}
-                    \begin{figure}[H!]
-                        \includegraphics[width=\textwidth]{./animacion_jupiter_2}
-                        \caption*{Véase la animación completa en \url{https://youtu.be/GijCuivfah8}.}
-                        \label{fig:jupiter_2}
-                    \end{figure}
-                    \vspace*{-0.5cm}
-                    \begin{beamercolorbox}[sep=5pt,center]{block body}
-                        \centering
-                        \small{Día de partida: 896}
-                    \end{beamercolorbox}
-                \end{minipage}
             \end{frame}
 
-            \begin{frame}{Distancia mínima a Júpiter vs día de partida}{Momento óptimo de partida para arribar a Júpiter}
+            \begin{frame}{Promedio de la distancia loco-pelota en función de $v_d$}{Variación de $v_d$}
                 \begin{figure}[H!]
-                    \includegraphics[width=0.9\textwidth]{./distancia_a_jupiter_vs_dia_de_partida}
-                    \label{fig:jupiter_3}
+                    \includegraphics[width=0.9\textwidth]{./distancia_vs_vd}
+                    \label{fig:futbol_5}
                 \end{figure}
                 \begin{beamercolorbox}[sep=5pt,center]{block body}
                     \centering
-                    \small{$\Delta t = 60s$ ; Misión exitosa si $d_{nave-jupiter} < 71000 km$}
+                    \small{$\tau = 0.5$ s}
                 \end{beamercolorbox}
             \end{frame}
 
-            \begin{frame}{Distancia mínima a Júpiter vs hora de partida}{Momento óptimo de partida para arribar a Júpiter. A partir de 895d}
+            \begin{frame}{Variación de $\tau$}{Animación #1}
+                \vspace*{-0.3cm}
                 \begin{figure}[H!]
-                    \includegraphics[width=0.9\textwidth]{./distancia_a_jupiter_vs_hora_de_partida}
-                    \label{fig:jupiter_4}
+                    \includegraphics[width=\textwidth]{./animacion_4}
+                    \caption*{Véase la animación completa en \url{TODO}.}
+                    \label{fig:futbol_6}
                 \end{figure}
+                \vspace*{-0.5cm}
                 \begin{beamercolorbox}[sep=5pt,center]{block body}
                     \centering
-                    \small{$\Delta t = 60s$ ; Misión exitosa si $d_{nave-jupiter} < 71000 km$}
+                    \small{$v_d = 5$ m/s ; $\tau = 0.1$ s}
                 \end{beamercolorbox}
             \end{frame}
 
-            \begin{frame}{Distancia mínima a Júpiter vs minuto de partida}{Momento óptimo de partida para arribar a Júpiter. A partir de 896d 1h}
+            \begin{frame}{Variación de $\tau$}{Animación #2}
+                \vspace*{-0.3cm}
                 \begin{figure}[H!]
-                    \includegraphics[width=0.9\textwidth]{./distancia_a_jupiter_vs_minuto_de_partida}
-                    \label{fig:jupiter_5}
+                    \includegraphics[width=\textwidth]{./animacion_5}
+                    \caption*{Véase la animación completa en \url{TODO}.}
+                    \label{fig:futbol_7}
                 \end{figure}
+                \vspace*{-0.5cm}
                 \begin{beamercolorbox}[sep=5pt,center]{block body}
                     \centering
-                    \small{$\Delta t = 60s$ ; $d_{nave-jupiter} = 705125 km$}
+                    \small{$v_d = 5$ m/s ; $\tau = 1$ s}
                 \end{beamercolorbox}
             \end{frame}
 
-            \begin{frame}{Distancia mínima a Júpiter vs velocidad inicial de la nave}{Partida de la nave: 896d 1h 52m}
+            \begin{frame}{Distancia entre el loco y la pelota en función del tiempo}{Variación de $\tau$}
                 \begin{figure}[H!]
-                    \includegraphics[width=0.9\textwidth]{./min_distance_vs_v0_logarithmic_jupiter}
-                    \label{fig:jupiter_6}
+                    \includegraphics[width=0.9\textwidth]{./distancia_vs_tiempo_tau}
+                    \label{fig:futbol_8}
                 \end{figure}
                 \begin{beamercolorbox}[sep=5pt,center]{block body}
                     \centering
-                    \small{$\Delta t = 60s$ ; Misión exitosa si $d_{nave-jupiter} < 10^6 km$}
+                    \small{$v_d = 5$ m/s}
                 \end{beamercolorbox}
             \end{frame}
 
-            \begin{frame}{Tiempo de vuelo vs velocidad inicial de la nave}{Partida de la nave: 896d 1h 52m}
+            \begin{frame}{Promedio de la distancia loco-pelota en función de $\tau$}{Variación de $\tau$}
                 \begin{figure}[H!]
-                    \includegraphics[width=0.9\textwidth]{./travel_time_vs_v0_logarithmic_jupiter}
-                    \label{fig:jupiter_7}
+                    \includegraphics[width=0.9\textwidth]{./distancia_vs_tau}
+                    \label{fig:futbol_9}
                 \end{figure}
                 \begin{beamercolorbox}[sep=5pt,center]{block body}
                     \centering
-                    \small{$\Delta t = 60s$ ; Misión exitosa si $d_{nave-jupiter} < 10^6 km$}
+                    \small{$v_d = 5$ m/s}
+                \end{beamercolorbox}
+            \end{frame}
+
+        \subsection{Módulo de la velocidad de distintos jugadores}
+
+            \begin{frame}{Función de densidad de probabilidad}{Módulo de la velocidad de distintos jugadores}
+                \begin{figure}[H!]
+                    \includegraphics[width=0.9\textwidth]{./pdf}
+                    \label{fig:futbol_10}
+                \end{figure}
+                \begin{beamercolorbox}[sep=5pt,center]{block body}
+                    \centering
+                    \small{$v_d = 5$ m/s ; $\tau = 0.5$ s}
+                \end{beamercolorbox}
+            \end{frame}
+
+        \subsection{Número de visitas a zonas de la cancha por minuto}
+
+            \begin{frame}{Heatmap de todos los jugadores}{Número de visitas a zonas de la cancha por minuto}
+                \begin{figure}[H!]
+                    \includegraphics[width=0.9\textwidth]{./heatmap_all}
+                    \label{fig:futbol_11}
+                \end{figure}
+                \begin{beamercolorbox}[sep=5pt,center]{block body}
+                    \centering
+                    \small{Se estudia el intervalo entre $57.24$ s y $177.72$ s}
+                \end{beamercolorbox}
+            \end{frame}
+
+            \begin{frame}{Heatmap del jugador virtual}{Número de visitas a zonas de la cancha por minuto}
+                \begin{figure}[H!]
+                    \includegraphics[width=0.9\textwidth]{./heatmap_loco}
+                    \label{fig:futbol_12}
+                \end{figure}
+                \begin{beamercolorbox}[sep=5pt,center]{block body}
+                    \centering
+                    \small{Se estudia el intervalo entre $57.24$ s y $177.72$ s}
+                \end{beamercolorbox}
+            \end{frame}
+
+            \begin{frame}{Heatmap del jugador \#TODO}{Número de visitas a zonas de la cancha por minuto}
+                \begin{figure}[H!]
+                    \includegraphics[width=0.9\textwidth]{./heatmap_jugador_TODO}
+                    \label{fig:futbol_13}
+                \end{figure}
+                \begin{beamercolorbox}[sep=5pt,center]{block body}
+                    \centering
+                    \small{Se estudia el intervalo entre $57.24$ s y $177.72$ s}
+                \end{beamercolorbox}
+            \end{frame}
+
+            \begin{frame}{Heatmap del jugador \#TODO}{Número de visitas a zonas de la cancha por minuto}
+                \begin{figure}[H!]
+                    \includegraphics[width=0.9\textwidth]{./heatmap_jugador_TODO}
+                    \label{fig:futbol_14}
+                \end{figure}
+                \begin{beamercolorbox}[sep=5pt,center]{block body}
+                    \centering
+                    \small{Se estudia el intervalo entre $57.24$ s y $177.72$ s}
+                \end{beamercolorbox}
+            \end{frame}
+
+            \begin{frame}{Heatmap del jugador \#TODO}{Número de visitas a zonas de la cancha por minuto}
+                \begin{figure}[H!]
+                    \includegraphics[width=0.9\textwidth]{./heatmap_jugador_TODO}
+                    \label{fig:futbol_15}
+                \end{figure}
+                \begin{beamercolorbox}[sep=5pt,center]{block body}
+                    \centering
+                    \small{Se estudia el intervalo entre $57.24$ s y $177.72$ s}
                 \end{beamercolorbox}
             \end{frame}
 
@@ -471,11 +451,10 @@
 
         \begin{frame}{Conclusiones}
             \begin{itemize}
-                \item El óptimo $\Delta t$ tiene un mínimo.
-                Llega un punto que si se sigue disminuyendo, el error es mayor.
-                \item Los cambios en la velocidad inicial de la nave resultan en una mayor distancia mínima a Marte.
-                \item A medida que la nave se aleja del sol, su aceleración disminuye.
-                \item Estas observaciones se pueden extrapolar a otros sistemas planetarios.
+                \item $v_d$ aumenta $\Rightarrow$ $d_{pelota-loco}$ aumenta
+                \item $\tau$ aumenta $\Rightarrow$ $d_{pelota-loco}$ disminuye
+                \item $\vec{v_{loco}}$ tiende a $\vec{v_d}$
+                \item Se observan diferentes comportamientos para diferentes posiciones de los jugadores
             \end{itemize}
         \end{frame}
 
