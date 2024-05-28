@@ -66,6 +66,7 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
     vel = [vel_crazy_guy, vel_player_1, vel_player_6, vel_player_11]
     vel_label = ["PDF del loco", "PDF del Jugador 1", "PDF del Jugador 6", "PDF del Jugador 11"]
 
+    plt.rcParams.update({'font.size': 20})
     fig, ax = plt.subplots()
 
     for i in range(len(vel)):
@@ -76,7 +77,7 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
         plt.plot(bin_centers, hist, marker='o', linestyle='-', label=vel_label[i])
 
     ax.set_xlabel("Velocidad $\\left( m/s \\right)$", fontdict={"weight": "bold"})
-    ax.set_ylabel("Densidad de probabilidad $\\left( s \\right)$", fontdict={"weight": "bold"})
+    ax.set_ylabel("Densidad de probabilidad", fontdict={"weight": "bold"})
     plt.xlim(0, MAX_VELOCITY)
     plt.yscale("log")
     ax.legend()
