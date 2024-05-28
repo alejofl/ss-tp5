@@ -12,7 +12,7 @@ LIMIT_X = 105
 LIMIT_Y = 68
 START_PLAYERS_INDEX = 1433
 END_PLAYERS_INDEX = 4446
-MAX_VELOCITY = 8
+MAX_VELOCITY = 5.5
 BIN_WIDTH = 0.4
 ##########################################
 
@@ -65,6 +65,16 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
 
     vel = [vel_crazy_guy, vel_player_1, vel_player_6, vel_player_11]
     vel_label = ["PDF del loco", "PDF del Jugador 1", "PDF del Jugador 6", "PDF del Jugador 11"]
+
+    # print(vel_crazy_guy)
+    # print(max(vel_crazy_guy))
+    # for i in range(len(vel_player_11)):
+    #     if vel_player_11[i] > 3 and vel_player_11[i] < 3.5:
+    #         print(vel_player_11[i])
+    #     elif vel_player_11[i] <= 3:
+    #         print("Tengo velocidades menores a tres")
+    #     elif vel_player_11[i] >= 3.5:
+    #         print("Tengo velocidades mayores a 3.5")
 
     plt.rcParams.update({'font.size': 20})
     fig, ax = plt.subplots()

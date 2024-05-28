@@ -231,16 +231,14 @@
             \end{frame}
 
             \begin{frame}{Módulo de la velocidad de distintos jugadores}
-                \begin{equation*}
-                    \vec{v}(t) = \frac{\vec{r}(t) - \vec{r}(t - \Delta t)}{\Delta t}\ ;\ \Delta t = 0.04 \text{s}
-                \end{equation*}
                 \begin{itemize}
-                    \item Se eliminan las velocidades que superen los $TODO$ m/s.
-                    \item Se estudia la función de densidad de probabilidad de la velocidad de los jugadores.
-                    \begin{itemize}
-                        \item Se calcula el número de bins usando la \alert{regla de Sturges}.
-                        \item Se calcula el ancho de los bins usando el \alert{método de Scott}.
-                    \end{itemize}
+                    \item Se define la función de densidad de probabilidad de la velocidad de un jugador como:
+                    \begin{equation*}
+                        f(v(t)) \text{ donde } v(t) = \frac{|\vec{r}(t) - \vec{r}(t - \Delta t)|}{\Delta t}\ ;\ \Delta t = 0.04 \text{s}
+                    \end{equation*}
+                    \item Se divide el intervalo de velocidades en $\Delta x = 0,04$
+                    \item Se eliminan las velocidades que superen los $5,5$m/s.
+                    \item Se estudia la función de densidad de probabilidad de la velocidad del jugador virtual y los jugadores 1, 6 y 11.
                 \end{itemize}
             \end{frame}
 
