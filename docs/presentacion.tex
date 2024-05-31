@@ -200,6 +200,9 @@
                     \centering
                     $\therefore [t_i ; t_f] = [57.24 ; 177.72] \Rightarrow D = 120.48$ s
                 \end{beamercolorbox}
+                \begin{block}{Dato curioso}
+                    En la simulación, si $\vec{r}_{pelota} =$ NaN $\Rightarrow$ $\vec{a}_{loco}=0$m/s$^2$ y continuará con la trayectoria previa.
+                \end{block}
             \end{frame}
 
             \begin{frame}{Cálculo de la velocidad de deseo en cada instante}
@@ -237,7 +240,7 @@
                         v(t) = \frac{|\vec{r}(t) - \vec{r}(t - \Delta t)|}{\Delta t}\ ;\ \Delta t = 0.04 \text{s}
                     \end{equation*}
                     \item Se eliminan las velocidades que superen los $5,5$m/s.
-                    \item Se estudia la PDF de la velocidad del jugador virtual y los jugadores 1, 6 y 11.
+                    \item Se estudia la PDF de la velocidad del loco y los jugadores 1 (lateral derecho), 6 (mediocampista central) y 11 (arquero).
                     \item Se define la longitud de cada bin: $\Delta v = 0,04$m/s.
                 \end{itemize}
             \end{frame}
