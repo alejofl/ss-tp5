@@ -61,7 +61,6 @@ for file, relaxing_time in zip(files, RELAXING_TIMES):
     xs.append(relaxing_time)
     ys.append(np.mean(distances))
     errors.append(ss.sem(distances))
-    np
 
 ax.errorbar(xs, ys, yerr=errors, fmt='o', capsize=5)
 

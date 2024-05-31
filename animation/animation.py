@@ -48,7 +48,6 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
             extent=(0, LIMIT_X,
                     0, LIMIT_Y)
         )
-        ax.add_patch(ptchs.Circle((convert_xy_to_system_reference(virtual_player_data[i][1], virtual_player_data[i][2], False)), PEOPLE_RADIUS, color="fuchsia"))
         for j in range(3, 27, 2):
             if away_data[i][j] != "NaN" and away_data[i][j+1] != "NaN":
                 ax.add_patch(ptchs.Circle((convert_xy_to_system_reference(away_data[i][j], away_data[i][j+1])), PEOPLE_RADIUS, facecolor="yellow", edgecolor="blue", linewidth=3))
@@ -59,6 +58,7 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
             ax.add_patch(ptchs.Circle((convert_xy_to_system_reference(home_data[i][31], home_data[i][32])), BALL_RADIUS, facecolor="white", edgecolor="black", linewidth=1.5))
         elif home_data[i][27] != "NaN" and home_data[i][28] != "NaN":
             ax.add_patch(ptchs.Circle((convert_xy_to_system_reference(away_data[i][27], away_data[i][28])) , BALL_RADIUS, facecolor="white", edgecolor="black", linewidth=1.5))
+        ax.add_patch(ptchs.Circle((convert_xy_to_system_reference(virtual_player_data[i][1], virtual_player_data[i][2], False)), PEOPLE_RADIUS, facecolor="aqua", edgecolor="aqua", linewidth=1.5))
         return ax
 
     # Create the animation
