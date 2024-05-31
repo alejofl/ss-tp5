@@ -5,7 +5,7 @@ import numpy as np
 from scipy.stats import gaussian_kde
 
 ########### CONSTANT VARIABLES ###########
-VIRTUAL_PLAYER_FILENAME = "output.txt"
+VIRTUAL_PLAYER_FILENAME = "output_velocity_5.0.txt"
 HOME_FILENAME = "TrackingData_Local.csv"
 AWAY_FILENAME = "TrackingData_Visitante.csv"
 LIMIT_X = 105
@@ -88,7 +88,7 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
         plt.plot(bin_centers, hist, marker='o', linestyle='-', label=vel_label[i])
 
     ax.set_xlabel("Velocidad $\\left( m/s \\right)$", fontdict={"weight": "bold"})
-    ax.set_ylabel("Densidad de probabilidad", fontdict={"weight": "bold"})
+    ax.set_ylabel("Densidad de probabilidad $\\left( \\frac{1}{m/s} \\right)$", fontdict={"weight": "bold"})
     plt.xlim(0, MAX_VELOCITY)
     # plt.yscale("log")
     ax.legend()
