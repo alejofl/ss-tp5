@@ -232,13 +232,13 @@
 
             \begin{frame}{Módulo de la velocidad de distintos jugadores}
                 \begin{itemize}
-                    \item Se define la función de densidad de probabilidad de la velocidad de un jugador como:
+                    \item Se define el módulo de la velocidad de un jugador como:
                     \begin{equation*}
-                        f(v(t)) \text{ donde } v(t) = \frac{|\vec{r}(t) - \vec{r}(t - \Delta t)|}{\Delta t}\ ;\ \Delta t = 0.04 \text{s}
+                        v(t) = \frac{|\vec{r}(t) - \vec{r}(t - \Delta t)|}{\Delta t}\ ;\ \Delta t = 0.04 \text{s}
                     \end{equation*}
-                    \item Se divide el intervalo de velocidades en $\Delta x = 0,04$
                     \item Se eliminan las velocidades que superen los $5,5$m/s.
-                    \item Se estudia la función de densidad de probabilidad de la velocidad del jugador virtual y los jugadores 1, 6 y 11.
+                    \item Se estudia la PDF de la velocidad del jugador virtual y los jugadores 1, 6 y 11.
+                    \item Se define la longitud de cada bin: $\Delta v = 0,04$m/s.
                 \end{itemize}
             \end{frame}
 

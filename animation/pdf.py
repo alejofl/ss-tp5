@@ -82,6 +82,7 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
     for i in range(len(vel)):
         bins = np.arange(0, np.max(vel[i]) + BIN_WIDTH, BIN_WIDTH)
         hist, bin_edges = np.histogram(vel[i], bins=bins, density=True)
+        # hist, bin_edges = np.histogram(vel[i], bins='sturges', density=True)
         bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
         # plt.bar(bin_centers, hist, width=BIN_WIDTH, alpha=0.5)
         plt.plot(bin_centers, hist, marker='o', linestyle='-', label=vel_label[i])
@@ -89,6 +90,6 @@ with (open(os.path.join(os.path.dirname(__file__), "..", f"{VIRTUAL_PLAYER_FILEN
     ax.set_xlabel("Velocidad $\\left( m/s \\right)$", fontdict={"weight": "bold"})
     ax.set_ylabel("Densidad de probabilidad", fontdict={"weight": "bold"})
     plt.xlim(0, MAX_VELOCITY)
-    plt.yscale("log")
+    # plt.yscale("log")
     ax.legend()
     plt.show()
